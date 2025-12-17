@@ -13,31 +13,49 @@ import jakarta.servlet.http.HttpSession;
 import jp.co.sss.crud.bean.EmployeeBean;
 
 @Component
-public class AccountCheckFilter extends HttpFilter{
+public class AccountCheckFilter extends HttpFilter {
 	@Override
 	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		String requestURL = request.getRequestURI();
-		
+
 		if (requestURL.indexOf("/html/") != -1 || requestURL.indexOf("/css/") != -1 || requestURL.indexOf("/img/") != -1
 				|| requestURL.indexOf("/js/") != -1) {
 			chain.doFilter(request, response);
 			return;
 
 		}
-		
-		if(requestURL.endsWith("/regist/input")||requestURL.endsWith("/delete/check")) {
+
+		if (requestURL.endsWith("/regist/input") || requestURL.endsWith("/delete/check")) {
+
 			HttpSession session = request.getSession();
-			EmployeeBean loginUser = (EmployeeBean)session.getAttribute("loginUser");
+			EmployeeBean loginUser = (EmployeeBean) session.getAttribute("loginUser");
 			Integer authority = loginUser.getAuthority();
-			
-			if(authority == 2) {
+
+			if (authority == 2) {
 				chain.doFilter(request, response);
-			}else {
+			} else {
+				session.invalidate();
 				response.sendRedirect("/spring_crud/");
 			}
+
+		} else if (requestURL.endsWith("/update/input")) {
+			HttpSession session = request.getSession();
+			EmployeeBean loginUser = (EmployeeBean) session.getAttribute("loginUser");
+			Integer empId = loginUser.getEmpId();
+			Integer authority = loginUser.getAuthority();
 			
-		}else {
+			String empIdStr = request.getParameter("empId");
+			Integer targetEmpId = Integer.valueOf(empIdStr);
+
+			if (authority == 2 || empId == targetEmpId) {
+				chain.doFilter(request, response);
+			} else {
+				session.invalidate();
+				response.sendRedirect("/spring_crud/");
+			}
+
+		} else {
 			chain.doFilter(request, response);
 		}
 	}
