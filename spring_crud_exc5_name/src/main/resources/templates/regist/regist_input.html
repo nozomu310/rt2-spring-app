@@ -25,7 +25,16 @@
 			<div class="form">
 				<div class="label">パスワード：</div>
 				<div class="input required">
-					<input type="password" th:field="*{empPass}" />
+					<input type="password" id="pass1" th:field="*{empPass}" />
+				</div>
+			</div>
+
+			<div class="form">
+				<div class="label">パスワード（確認用）:</div>
+				<div class="input required">
+					<input type="password" id="pass2">
+					<input type="checkbox" id="showPassCheck">
+					<div>パスワードを表示する</div>
 				</div>
 			</div>
 
@@ -79,8 +88,13 @@
 
 			<div class="form">
 				<div class="label"></div>
+				<div class="input required" id="msg"></div>
+			</div>
+
+			<div class="form">
+				<div class="label"></div>
 				<div class="input">
-					<input type="submit" value="登録" />
+					<input type="submit" id="linkBtn" value="登録" />
 				</div>
 			</div>
 		</form>
@@ -93,6 +107,63 @@
 				</div>
 			</div>
 		</form>
+
+		<script>
+			const pass1 = document.getElementById('pass1');
+			const pass2 = document.getElementById('pass2');
+			const msg = document.getElementById('msg');
+			const btn = document.getElementById('linkBtn');
+
+			// パスワード一致チェック関数
+			const checkPassword = () => {
+				const val1 = pass1.value;
+				const val2 = pass2.value;
+
+				btn.ariaDisabled = true;
+
+				if (val1 === "" && val2 === "") {
+					msg.textContent = "";
+					msg.className = "";
+					btn.disabled = true;
+					return;
+				}
+
+				if (val1 === val2) {
+					msg.textContent = "";
+					msg.className = "";
+					// 一致したらボタンのロックを解除（活性化）
+					btn.disabled = false;
+				} else {
+					msg.textContent = "パスワードが一致していません";
+					msg.className = "invalid";
+					// 不一致ならロックする
+					btn.disabled = true;
+				}
+			};
+
+			pass1.addEventListener('input', checkPassword);
+			pass2.addEventListener('input', checkPassword);
+
+			const passwordInput = document.getElementById('pass2');
+			const checkbox = document.getElementById('showPassCheck');
+
+			// 2. チェックボックスの状態が変わった時のイベント (change)
+			checkbox.addEventListener('change', () => {
+
+				if (checkbox.checked) {
+					// チェックが入ったら、typeを "text" に変更（見えるようにする）
+					passwordInput.type = 'text';
+				} else {
+					// チェックが外れたら、typeを "password" に戻す（隠す）
+					passwordInput.type = 'password';
+				}
+
+			});
+
+		</script>
+
+
+
 	</div>
 </body>
 

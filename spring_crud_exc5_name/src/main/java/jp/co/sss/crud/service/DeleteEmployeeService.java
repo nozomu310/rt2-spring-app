@@ -31,8 +31,8 @@ public class DeleteEmployeeService {
 	 * @param forDeleteEmpId 削除対象の従業員ID
 	 */
 	//TODO ここに記述
-	public void execute(Integer forDeleleteEmpId) {
-		repo.deleteById(forDeleleteEmpId);
+	public void execute(Integer forDeleteEmpId) {
+		repo.deleteById(forDeleteEmpId);
 	}
 
 }

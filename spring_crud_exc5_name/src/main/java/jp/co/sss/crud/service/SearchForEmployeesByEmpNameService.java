@@ -45,7 +45,7 @@ public class SearchForEmployeesByEmpNameService {
 	 */
 	//TODO ここに記述
 	public List<EmployeeBean> execute(String searchString){
-		List<Employee> emp = repo.findByEmpNameContaining(searchString);
+		List<Employee> emp = repo.findByEmpNameContainingAndDeletedFlgOrderByEmpIdAsc(searchString, 0);
 		List<EmployeeBean> empB = new ArrayList<>();
 		for(Employee e: emp) {
 			EmployeeBean b = new EmployeeBean();

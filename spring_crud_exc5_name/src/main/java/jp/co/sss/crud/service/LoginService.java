@@ -57,7 +57,7 @@ public class LoginService {
 
 		Integer empId = loginForm.getEmpId();
 		String empPass = loginForm.getEmpPass();
-		Employee emp = repo.findByEmpIdAndEmpPass(empId, empPass);
+		Employee emp = repo.findByEmpIdAndEmpPassAndDeletedFlg(empId, empPass, 0);
 
 		if (emp == null) {
 			return LoginResultBean.failLogin("社員ID、またはパスワードが間違っています。");

@@ -32,7 +32,7 @@
 			<th class="birthday" th:if="${session.loginUser.authority==2}">生年月日</th>
 			<th class="authority" th:if="${session.loginUser.authority==2}">権限</th>
 			<th class="deptName">部署名</th>
-			<th class="button" colspan="2">操作</th>
+			<th class="button" colspan="3">操作</th>
 		</tr>
 		<tr th:each="employee: ${employees}">
 			<td th:text="${employee.empId}"></td>
@@ -67,6 +67,13 @@
 				<form method="get" th:action="@{/delete/check}">
 					<input type="hidden" name="empId" th:value="${employee.empId}" />
 					<input type="submit" value="削除" class="delete" />
+				</form>
+			</td>
+			
+			<td class="button">
+				<form method="get" th:action="@{/deletedFlg/check}">
+					<input type="hidden" name="empId" th:value="${employee.empId}" />
+					<input type="submit" value="論理削除" class="delete" />
 				</form>
 			</td>
 
