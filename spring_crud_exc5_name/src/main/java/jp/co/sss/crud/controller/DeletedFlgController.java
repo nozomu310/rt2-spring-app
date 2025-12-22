@@ -60,7 +60,7 @@ public class DeletedFlgController {
 	 */
 	@RequestMapping(path = "/deletedFlg/complete", method = RequestMethod.GET)
 	public String completeDelete() {
-		return "delete/deletedFlg_complete";
+		return "deletedFlg/delete_complete";
 	}
 	
 }

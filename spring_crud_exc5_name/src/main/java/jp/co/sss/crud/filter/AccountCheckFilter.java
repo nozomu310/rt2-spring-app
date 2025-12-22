@@ -26,7 +26,7 @@ public class AccountCheckFilter extends HttpFilter {
 
 		}
 
-		if (requestURL.endsWith("/regist/input") || requestURL.endsWith("/delete/check")) {
+		if (requestURL.endsWith("/regist/input") || requestURL.endsWith("/delete/check")||requestURL.endsWith("/deletedFlg/check")) {
 
 			HttpSession session = request.getSession();
 			EmployeeBean loginUser = (EmployeeBean) session.getAttribute("loginUser");

@@ -5,6 +5,8 @@
 	<title>ログイン | 社員管理システム</title>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
 </head>
 
 <body>
@@ -12,55 +14,70 @@
 		<div th:object="${loginForm}">
 			<h3>ログイン画面</h3>
 			<!-- エラーメッセージの出力(入力チェック) -->
-			<p>
-				<span th:each="error:${#fields.detailedErrors()}">
-					<span th:text="${error.message}" class="error"></span><br />
-				</span>
-				<span th:text="${errMessage}" class="error"></span>
-			</p>
+			<p  th:classappend="${#fields.detailedErrors()} ? 'shake':''" >
+			<span th:each="error:${#fields.detailedErrors()}"> 
+				<span th:text="${error.message}" class="error"></span><br />
+			</span>
+			<span th:text="${errMessage}" class="error"></span>
+		</p>
 			<!-- エラーメッセージの出力(存在チェック) -->
 			<div class="login_form">
-				<form method="post" th:action="@{/login}">
+				<form id="loginForm" method="post" th:action="@{/login}">
 					<div class="login_form">
 						<div class="login_label">社員ID</div>
 						<div class="login_input">
-							<input type="text" th:field="*{empId}" />
+							<input type="text" id="empId" th:field="*{empId}"  th:classappend="${#fields.hasErrors('empId')} ? 'input-error':''"/>
 						</div>
 					</div>
 					<div class="login_form">
 						<div class="login_label">パスワード</div>
 						<div class="login_input">
-							<input type="password" id="myPassword" th:field="*{empPass}" />
+							<input type="password" id="myPassword" th:field="*{empPass}" th:classappend="${#fields.hasErrors('empPass')} ? 'input-error':''"/>
 							<input type="checkbox" id="showPassCheck">
 							<span>パスワードを表示する</span>
 						</div>
 					</div>
 
-					<script>
-						// 1. 要素を取得
-						const passwordInput = document.getElementById('myPassword');
-						const checkbox = document.getElementById('showPassCheck');
-
-						// 2. チェックボックスの状態が変わった時のイベント (change)
-						checkbox.addEventListener('change', () => {
-
-							if (checkbox.checked) {
-								// チェックが入ったら、typeを "text" に変更（見えるようにする）
-								passwordInput.type = 'text';
-							} else {
-								// チェックが外れたら、typeを "password" に戻す（隠す）
-								passwordInput.type = 'password';
-							}
-
-						});
-					</script>
 					<div class="login_form">
 						<div class="login_label"></div>
 						<div class="login_input">
-							<input type="submit" value="ログイン" />
+							<input id="submit" type="submit" value="ログイン" />
 						</div>
 					</div>
+
 				</form>
+
+				<script>
+					const form = document.getElementById('loginForm');
+
+					const empId = document.getElementById('empId');
+					const password = document.getElementById('myPassword');
+
+					const checkbox = document.getElementById('showPassCheck')
+
+					checkbox.addEventListener('change', () => {
+
+						if (checkbox.checked) {
+							// チェックが入ったら、typeを "text" に変更（見えるようにする）
+							password.type = 'text';
+						} else {
+							// チェックが外れたら、typeを "password" に戻す（隠す）
+							password.type = 'password';
+						}
+
+					});
+					
+					function clearFieldError(inputEl){
+						
+						if(inputEl.value.trim() === '') return;
+						
+						inputEl.classList.remove('input-error');
+						
+					}
+					
+					empId.addEventListener('blur', () => clearFieldError(empId));
+					password.addEventListener('blur', () => clearFieldError(password))
+				</script>
 			</div>
 		</div>
 	</th:block>

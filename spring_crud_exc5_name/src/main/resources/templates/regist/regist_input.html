@@ -15,7 +15,7 @@
 		<form th:action="@{/regist/check}" method="post" th:object="${employeeForm}">
 
 			<!-- エラーメッセージの出力(入力チェック) -->
-			<p>
+			<p  th:classappend="${#fields.hasErrors()} ? 'shake':''" >
 				<span th:each="error:${#fields.detailedErrors()}">
 					<span th:text="${error.message}" class="error"></span><br />
 				</span>
@@ -25,14 +25,14 @@
 			<div class="form">
 				<div class="label">パスワード：</div>
 				<div class="input required">
-					<input type="password" id="pass1" th:field="*{empPass}" />
+					<input type="password" id="pass1" th:field="*{empPass}"  th:classappend="${#fields.hasErrors('empPass')} ? 'input-error':''"/>
 				</div>
 			</div>
 
 			<div class="form">
 				<div class="label">パスワード（確認用）:</div>
 				<div class="input required">
-					<input type="password" id="pass2">
+					<input type="password" id="pass2"th:classappend="${#fields.hasErrors('empPass')} ? 'input-error':''">
 					<input type="checkbox" id="showPassCheck">
 					<div>パスワードを表示する</div>
 				</div>
@@ -41,7 +41,7 @@
 			<div class="form">
 				<div class="label">社員名：</div>
 				<div class="input required">
-					<input type="text" th:field="*{empName}" />
+					<input type="text" th:field="*{empName}"  th:classappend="${#fields.hasErrors('empName')} ? 'input-error':''"/>
 				</div>
 			</div>
 
@@ -56,14 +56,14 @@
 			<div class="form">
 				<div class="label">住所：</div>
 				<div class="input required">
-					<input type="text" th:field="*{address}" />
+					<input type="text" th:field="*{address}"  th:classappend="${#fields.hasErrors('address')} ? 'input-error':''"/>
 				</div>
 			</div>
 
 			<div class="form">
 				<div class="label">生年月日：(YYYY/MM/DD)</div>
 				<div class="input required">
-					<input type="text" th:field="*{birthday}" />
+					<input type="text" th:field="*{birthday}"  th:classappend="${#fields.hasErrors('birthday')} ? 'input-error':''"/>
 				</div>
 			</div>
 
@@ -143,22 +143,36 @@
 
 			pass1.addEventListener('input', checkPassword);
 			pass2.addEventListener('input', checkPassword);
-
-			const passwordInput = document.getElementById('pass2');
+			
 			const checkbox = document.getElementById('showPassCheck');
 
 			// 2. チェックボックスの状態が変わった時のイベント (change)
 			checkbox.addEventListener('change', () => {
-
-				if (checkbox.checked) {
-					// チェックが入ったら、typeを "text" に変更（見えるようにする）
-					passwordInput.type = 'text';
-				} else {
-					// チェックが外れたら、typeを "password" に戻す（隠す）
-					passwordInput.type = 'password';
-				}
-
+				
+				const type = checkbox.checked ? 'text':'password';
+				
+				pass1.type = type;
+				pass2.type = type;
 			});
+			
+			const empName = document.getElementById('empName');
+			const address = document.getElementById('address');
+			const birthday = document.getElementById('birthday');
+			
+			function clearFieldError(inputEl){
+						
+						if(inputEl.value.trim() === '') return;
+						
+						inputEl.classList.remove('input-error');
+						
+					}
+					
+					pass1.addEventListener('blur', () => clearFieldError(pass1));
+					pass2.addEventListener('blur', () => clearFieldError(pass2));
+					empName.addEventListener('blur', () => clearFieldError(empName));
+					address.addEventListener('blur', () => clearFieldError(address));
+					birthday.addEventListener('blur', () => clearFieldError(birthday));
+					
 
 		</script>
 
