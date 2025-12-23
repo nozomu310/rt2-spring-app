@@ -54,5 +54,10 @@ public class IndexController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	@RequestMapping("/noauth")
+	public String noauth() {
+		return "noauth";
+	}
 
 }

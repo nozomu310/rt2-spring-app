@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout_4block :: layout(~{::body/content()})}">
+<head>
+	<title>権限エラー | 社員管理システム</title>
+	<meta charset="UTF-8" />
+</head>
+
+
+<body>
+
+<div class="message">
+	<p>権限がありません</p>
+</div>
+
+<script th:inline="javascript">
+	if(confirm("権限がありません。ログアウトしますか")){
+		location.href=/*[[@{/logout}]]*/"";
+	}else{
+		location.href=/*[[@{/list}]]*/"";
+	}
+</script>
+
+</body>
+</html>

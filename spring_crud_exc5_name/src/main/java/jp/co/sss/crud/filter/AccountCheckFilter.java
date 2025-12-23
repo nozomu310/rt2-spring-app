@@ -25,6 +25,11 @@ public class AccountCheckFilter extends HttpFilter {
 			return;
 
 		}
+		
+		if(requestURL.endsWith("/noauth")||requestURL.endsWith("/logout")) {
+			chain.doFilter(request, response);
+			return;
+		}
 
 		if (requestURL.endsWith("/regist/input") || requestURL.endsWith("/delete/check")||requestURL.endsWith("/deletedFlg/check")) {
 
@@ -35,8 +40,8 @@ public class AccountCheckFilter extends HttpFilter {
 			if (authority == 2) {
 				chain.doFilter(request, response);
 			} else {
-				session.invalidate();
-				response.sendRedirect("/spring_crud/");
+				
+				response.sendRedirect("/spring_crud/noauth");
 			}
 
 		} else if (requestURL.endsWith("/update/input")) {
@@ -51,8 +56,7 @@ public class AccountCheckFilter extends HttpFilter {
 			if (authority == 2 || empId == targetEmpId) {
 				chain.doFilter(request, response);
 			} else {
-				session.invalidate();
-				response.sendRedirect("/spring_crud/");
+				response.sendRedirect("/spring_crud/noauth");
 			}
 
 		} else {
