@@ -44,7 +44,7 @@
 			</div>
 		</div>
 		
-		<form th:action="@{/deletedFlg/complete}" method="post" name="check">
+		<form th:action="@{/deletedFlg/complete}" method="post" name="check" onsubmit="return confirm('この社員を削除しますか？')">
 			<div class="form">
 				<div class="label"></div>
 				<div class="input">
