@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>会員　一括登録入力 | シェアードショップ</title>
+	<meta charset="UTF-8" />
+	<script th:src="@{/js/jquery.min.js}"></script>
+</head>
+
+<a th:href="@{/list}" class="title">
+	<h1 class="title">社員管理システム</h1>
+</a>
+
+<body class="admin user_regist_input_admin">
+	<h3>社員一括登録入力画面</h3>
+
+
+
+	<div class="update">
+		<form th:action="@{/regist/bulk/complete}" method="post" th:object="${employeesForm}">
+
+			<!-- エラーメッセージの出力(入力チェック) -->
+			<p th:classappend="${#fields.hasErrors()} ? 'shake':''">
+				<span th:each="error:${#fields.detailedErrors()}">
+					<span th:text="${error.message}" class="error"></span><br />
+				</span>
+				<span th:text="${errMessage}" class="error"></span>
+			</p>
+
+			<div style="display:flex; gap:12px; align-items:center; margin:10px 0;">
+				<button type="button" id="addRowBtn">+ 行を追加</button>
+
+				<div style="display:flex; gap:12px; align-items:center; margin:10px 0;">
+					<input type="checkbox" id="showAllPass">
+					パスワードを表示
+				</div>
+			</div>
+
+			<table border="1" style="width:100% ; border-collapse: collapse;">
+				<thead>
+					<tr>
+						<th>パスワード</th>
+						<th>パスワード　確認</th>
+						<th>社員名</th>
+						<th>性別</th>
+						<th>住所</th>
+						<th>生年月日(yyyy/MM/dd)</th>
+						<th>権限</th>
+						<th>部署</th>
+						<th>削除</th>
+					</tr>
+				</thead>
+
+				<tbody id="tbody">
+
+					<tr th:each="row, st : *{emps}">
+						<td>
+							<input type="password" class="bulk" th:id="'pass1_'+${st.index}"
+								th:field="*{emps[__${st.index}__].empPass}"
+								th:classappend="${#fields.hasErrors('emps[__${st.index}__].empPass')} ? 'input-error':''" />
+						</td>
+						<td>
+							<input type="password" class="bulk" th:id="'pass2_'+${st.index}"
+								th:classappend="${#fields.hasErrors('emps[__${st.index}__].empPass')} ? 'input-error':''">
+							<div class="label">
+								<div class="input required" th:id="'msg_'+${st.index}"></div>
+							</div>
+						</td>
+						<td>
+							<input type="text" class="bulk" th:field="*{emps[__${st.index}__].empName}"
+								th:classappend="${#fields.hasErrors('emps[__${st.index}__].empName')} ? 'input-error':''" />
+						</td>
+						<td>
+							<div class="bulk">
+								<input type="radio" th:field="*{emps[__${st.index}__].gender}" value="1" />男性
+								<input type="radio" th:field="*{emps[__${st.index}__].gender}" value="2" />女性
+							</div>
+						</td>
+						<td>
+							<div class="bulk required">
+								<input type="text" th:field="*{emps[__${st.index}__].address}"
+									th:classappend="${#fields.hasErrors('emps[__${st.index}__].address')} ? 'input-error':''" />
+							</div>
+						</td>
+						<td>
+							<div class="bulk required">
+								<input type="text" th:field="*{emps[__${st.index}__].birthday}"
+									th:classappend="${#fields.hasErrors('emps[__${st.index}__].birthday')} ? 'input-error':''" />
+							</div>
+						</td>
+						<td>
+							<div class="bulk">
+								<input type="radio" th:field="*{emps[__${st.index}__].authority}" value="1" />一般
+								<input type="radio" th:field="*{emps[__${st.index}__].authority}" value="2" />管理者
+							</div>
+						</td>
+						<td>
+							<div class="bulk">
+								<select th:field="*{emps[__${st.index}__].deptId}">
+									<option value="1">営業部</option>
+									<option value="2">経理部</option>
+									<option value="3">総務部</option>
+								</select>
+							</div>
+						</td>
+
+						<td style="text-align:center;">
+							<button type="button" class="removeBtn">-</button>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+
+			<div class="form">
+				<div class="label"></div>
+				<div class="bulk">
+					<input type="submit" id="linkBtn" value="登録" />
+				</div>
+			</div>
+		</form>
+
+		<form th:action="@{/list}" name="back">
+			<div class="form">
+				<div class="label"></div>
+				<div class="bulk">
+					<input type="submit" value="戻る" />
+				</div>
+			</div>
+		</form>
+
+		<template id="rowTemplete">
+			<tr>
+				<td>
+					<input type="password" id="pass1">
+				</td>
+				<td>
+					<input type="password" id="pass2">
+					<div class="bulk required" id="msg"></div>
+				</td>
+				<td>
+					<input type="text">
+				</td>
+				<td>
+					<div class="bulk">
+						<input type="radio" value="1" />男性
+						<input type="radio" value="2" />女性
+					</div>
+				</td>
+				<td>
+					<div class="bulk required">
+						<input type="text">
+					</div>
+				</td>
+				<td>
+					<div class="bulk required">
+						<input type="text">
+					</div>
+				</td>
+				<td>
+					<div class="bulk">
+						<input type="radio" value="1" />一般
+						<input type="radio" value="2" />管理者
+					</div>
+				</td>
+				<td>
+					<div class="bulk">
+						<select>
+							<option value="1">営業部</option>
+							<option value="2">経理部</option>
+							<option value="3">総務部</option>
+						</select>
+					</div>
+				</td>
+
+				<td style="text-align:center;">
+					<button type="button" class="removeBtn">-</button>
+				</td>
+			</tr>
+		</template>
+
+</body>
+
+</html>

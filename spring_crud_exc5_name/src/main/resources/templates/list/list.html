@@ -12,6 +12,10 @@
 	<div class="regist_link">
 		<a th:href="@{/regist/input}">新規社員登録</a>
 	</div>
+	
+	<div class="regist_link">
+		<a th:href="@{/regist/bulk/input}">新規社員一括登録</a>
+	</div>
 
 	<!--	該当社員が0名の場合-->
 	<th:block th:if="${#lists.isEmpty(employees)}">

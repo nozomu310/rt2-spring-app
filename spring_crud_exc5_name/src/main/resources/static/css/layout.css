@@ -32,6 +32,8 @@ header .title {
 	margin-left: 10px;
 	line-height: 45px;
 	font-size: 25pt;
+	text-decoration: none;
+	color: #12526d;
 }
 
 header .user_info {
@@ -93,5 +95,6 @@ footer {
 	line-height: 30px;
 }
 
-
-
+btn.disabled{
+	background-color: red;
+}

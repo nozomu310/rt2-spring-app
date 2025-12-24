@@ -13,7 +13,7 @@
 </div>
 
 <script th:inline="javascript">
-	if(confirm("権限がありません。ログアウトしますか")){
+	if(confirm("権限がありません。ログアウトしますか？")){
 		location.href=/*[[@{/logout}]]*/"";
 	}else{
 		location.href=/*[[@{/list}]]*/"";

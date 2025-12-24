@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import jp.co.sss.crud.service.DeleteEmployeeService;
+import jp.co.sss.crud.service.DeletedFlgService;
 import jp.co.sss.crud.service.SearchForEmployeesByEmpIdService;
 
 @Controller
@@ -18,7 +18,7 @@ public class DeletedFlgController {
 	SearchForEmployeesByEmpIdService searchForEmployeesByEmpIdService;
 
 	@Autowired
-	DeleteEmployeeService deletedFlgService;
+	DeletedFlgService deletedFlgService;
 
 	/**
 	 * 社員情報の削除内容確認画面を出力
