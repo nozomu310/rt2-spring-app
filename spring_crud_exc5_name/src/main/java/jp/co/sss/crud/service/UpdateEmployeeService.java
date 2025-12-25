@@ -46,6 +46,7 @@ public class UpdateEmployeeService {
 	public void execute(EmployeeForm employeeForm) {
 		Employee emp = new Employee();
 		emp = BeanManager.copyFormToEntity(employeeForm);
+		emp.setDeletedFlg(0);
 		emp = repo.save(emp);	
 		
 	}
